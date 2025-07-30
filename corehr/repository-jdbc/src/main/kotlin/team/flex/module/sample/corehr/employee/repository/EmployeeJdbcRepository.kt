@@ -9,6 +9,7 @@ import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.employee.Employee
 import team.flex.module.sample.corehr.employee.EmployeeIdentity
 import team.flex.module.sample.corehr.employee.EmployeeModel
+import java.time.Instant
 
 interface EmployeeJdbcRepository : CrudRepository<EmployeeEntity, Long> {
     fun findByIdAndCompanyId(
@@ -36,6 +37,23 @@ class EmployeeRepositoryImpl(
         return employeeJdbcRepository.findByCompanyId(
             companyId = companyIdentity.companyId,
         ).map { it.toModel() }
+    }
+
+    override fun add(
+        companyId: Long,
+        employeeNumber: String,
+        employeeName: String,
+    ): EmployeeModel? {
+        val now = Instant.now()
+        val entity = EmployeeEntity(
+            companyId = companyId,
+            employeeNumber = employeeNumber,
+            name = employeeName,
+            createdAt = now,
+            updatedAt = now
+        )
+        val saved = employeeJdbcRepository.save(entity)
+        return saved
     }
 
     private fun EmployeeEntity.toModel() =

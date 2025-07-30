@@ -7,4 +7,5 @@ dependencies {
     implementation(project(":corehr:service"))
 
     integrationTestImplementation("org.springframework.security:spring-security-test")
+    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
 }

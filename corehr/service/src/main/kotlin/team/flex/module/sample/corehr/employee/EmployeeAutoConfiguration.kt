@@ -15,4 +15,10 @@ class EmployeeAutoConfiguration {
         EmployeeLookUpServiceImpl(
             employeeRepository = employeeRepository,
         )
+
+    @Bean
+    fun employeeRegisterServiceImpl(employeeRepository: EmployeeRepository): EmployeeRegisterService =
+        EmployeeRegisterServiceImpl(
+            employeeRepository = employeeRepository,
+        )
 }

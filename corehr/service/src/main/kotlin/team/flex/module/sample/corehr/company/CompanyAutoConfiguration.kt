@@ -15,4 +15,10 @@ class CompanyAutoConfiguration {
         CompanyLookUpServiceImpl(
             companyRepository = companyRepository,
         )
+
+    @Bean
+    fun companyRegisterServiceImpl(companyRepository: CompanyRepository): CompanyRegisterService =
+        CompanyRegisterServiceImpl(
+            companyRepository = companyRepository,
+        )
 }
