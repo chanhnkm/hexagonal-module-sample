@@ -21,4 +21,16 @@ class CompanyAutoConfiguration {
         CompanyRegisterServiceImpl(
             companyRepository = companyRepository,
         )
+
+    @Bean
+    fun companyRemoveServiceImpl(companyRepository: CompanyRepository): CompanyRemoveService =
+        CompanyRemoveServiceImpl(
+            companyRepository = companyRepository,
+        )
+
+    @Bean
+    fun companyUpdateServiceImpl(companyRepository: CompanyRepository): CompanyUpdateService =
+        CompanyUpdateServiceImpl(
+            companyRepository = companyRepository,
+        )
 }

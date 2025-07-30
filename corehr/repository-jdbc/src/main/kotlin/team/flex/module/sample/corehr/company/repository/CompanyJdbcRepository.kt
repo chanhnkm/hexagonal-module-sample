@@ -31,6 +31,23 @@ class CompanyRepositoryImpl(
         return saved
     }
 
+    override fun delete(companyIdentity: CompanyIdentity): Long? {
+        companyJdbcRepository.deleteById(companyIdentity.companyId)
+        return companyIdentity.companyId
+    }
+
+    override fun modify(companyId: Long, companyName: String): CompanyModel? {
+        val now = Instant.now()
+        val entity = companyJdbcRepository.findByIdOrNull(id = companyId)
+            ?: throw IllegalArgumentException("Invalid companyId: $companyId")
+
+        entity.name = companyName
+        entity.updatedAt = now
+
+        val saved = companyJdbcRepository.save(entity)
+        return saved.toModel()
+    }
+
     private fun CompanyEntity.toModel() =
         Company(
             companyId = companyId,

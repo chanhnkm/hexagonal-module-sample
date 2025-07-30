@@ -5,6 +5,7 @@
 package team.flex.module.sample.corehr.employee.repository
 
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.findByIdOrNull
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.employee.Employee
 import team.flex.module.sample.corehr.employee.EmployeeIdentity
@@ -50,10 +51,34 @@ class EmployeeRepositoryImpl(
             employeeNumber = employeeNumber,
             name = employeeName,
             createdAt = now,
-            updatedAt = now
+            updatedAt = now,
         )
         val saved = employeeJdbcRepository.save(entity)
         return saved
+    }
+
+    override fun delete(
+        employeeIdentity: EmployeeIdentity,
+    ): Long? {
+        employeeJdbcRepository.deleteById(employeeIdentity.employeeId)
+        return employeeIdentity.employeeId
+    }
+
+    override fun modify(
+        employeeId: Long,
+        employeeNumber: String,
+        employeeName: String,
+    ): EmployeeModel? {
+        val now = Instant.now()
+        val entity = employeeJdbcRepository.findByIdOrNull(id = employeeId)
+            ?: throw IllegalArgumentException("Invalid companyId: $employeeId")
+
+        entity.employeeNumber = employeeNumber
+        entity.name = employeeName
+        entity.updatedAt = now
+
+        val saved = employeeJdbcRepository.save(entity)
+        return saved.toModel()
     }
 
     private fun EmployeeEntity.toModel() =

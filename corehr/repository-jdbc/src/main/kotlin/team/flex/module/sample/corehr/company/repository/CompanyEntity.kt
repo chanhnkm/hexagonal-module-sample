@@ -17,7 +17,7 @@ class CompanyEntity(
     @Column
     override val createdAt: Instant,
     @Column
-    override val updatedAt: Instant,
+    override var updatedAt: Instant,
 ) : CompanyModel {
     @Id
     var id: Long = 0L

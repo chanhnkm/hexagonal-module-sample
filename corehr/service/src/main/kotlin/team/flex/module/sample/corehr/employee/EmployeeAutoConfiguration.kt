@@ -21,4 +21,16 @@ class EmployeeAutoConfiguration {
         EmployeeRegisterServiceImpl(
             employeeRepository = employeeRepository,
         )
+
+    @Bean
+    fun employeeRemoveServiceImpl(employeeRepository: EmployeeRepository): EmployeeRemoveService =
+        EmployeeRemoveServiceImpl(
+            employeeRepository = employeeRepository,
+        )
+
+    @Bean
+    fun employeeUpdateServiceImpl(employeeRepository: EmployeeRepository): EmployeeUpdateService =
+        EmployeeUpdateServiceImpl(
+            employeeRepository = employeeRepository,
+        )
 }

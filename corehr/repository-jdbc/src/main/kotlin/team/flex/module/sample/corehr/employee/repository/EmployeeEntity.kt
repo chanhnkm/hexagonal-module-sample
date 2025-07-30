@@ -15,13 +15,13 @@ class EmployeeEntity(
     @Column
     override val companyId: Long,
     @Column
-    override val employeeNumber: String,
+    override var employeeNumber: String,
     @Column
     override var name: String,
     @Column
     override val createdAt: Instant,
     @Column
-    override val updatedAt: Instant,
+    override var updatedAt: Instant,
 ) : EmployeeModel {
     @Id
     var id: Long = 0L
