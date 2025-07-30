@@ -1,3 +1,12 @@
+# 수정 버전 by chanhnkm
+---
+
+1. Exception 클래스들 컴파일 오류 수정 (exception 모듈 build.gradle 플러그인 jvm 연결)
+2. Company, Department, JobRole에 대한 조회 API 추가
+3. Company, Employee에 대한 등록 API 추가
+
+---
+
 # flex-module-sample
 ---
 
