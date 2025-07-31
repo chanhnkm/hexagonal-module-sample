@@ -92,7 +92,7 @@ class JobRoleApiController(
         summary = "직무 삭제 API",
         operationId = "removeJobRole",
     )
-    fun removeJobRole(
+    fun deleteJobRole(
         @PathVariable companyId: Long,
         @PathVariable jobRoleId: Long,
     ) {
@@ -107,7 +107,7 @@ class JobRoleApiController(
         summary = "직무 수정 API",
         operationId = "updateJobRole",
     )
-    fun updateJobRole(
+    fun modifyJobRole(
         @PathVariable companyId: Long,
         @PathVariable jobRoleId: Long,
         @RequestBody request: JobRoleRequest,

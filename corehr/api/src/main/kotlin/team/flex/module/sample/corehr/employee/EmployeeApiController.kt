@@ -96,7 +96,7 @@ class EmployeeApiController(
         summary = "구성원 삭제 API",
         operationId = "removeEmployee",
     )
-    fun removeEmployee(
+    fun deleteEmployee(
         @PathVariable companyId: Long,
         @PathVariable employeeId: Long,
     ) {
@@ -111,7 +111,7 @@ class EmployeeApiController(
         summary = "구성원 수정 API",
         operationId = "updateEmployee",
     )
-    fun updateEmployee(
+    fun modifyEmployee(
         @PathVariable companyId: Long,
         @PathVariable employeeId: Long,
         @RequestBody request: EmployeeRequest,

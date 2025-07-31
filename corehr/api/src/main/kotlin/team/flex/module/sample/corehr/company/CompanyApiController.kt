@@ -82,7 +82,7 @@ class CompanyApiController(
         summary = "회사 삭제 API",
         operationId = "removeCompany",
     )
-    fun removeCompany(
+    fun deleteCompany(
         @PathVariable companyId: Long,
     ) {
         removeService.delete(
@@ -95,7 +95,7 @@ class CompanyApiController(
         summary = "회사 수정 API",
         operationId = "updateCompany",
     )
-    fun updateCompany(
+    fun modifyCompany(
         @PathVariable companyId: Long,
         @RequestBody request: CompanyRequest,
     ): CompanyResponse {

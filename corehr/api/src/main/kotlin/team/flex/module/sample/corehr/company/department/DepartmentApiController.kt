@@ -96,7 +96,7 @@ class DepartmentApiController(
         summary = "부서 삭제 API",
         operationId = "removeDepartment",
     )
-    fun removeDepartment(
+    fun deleteDepartment(
         @PathVariable companyId: Long,
         @PathVariable departmentId: Long,
     ) {
@@ -111,7 +111,7 @@ class DepartmentApiController(
         summary = "부서 수정 API",
         operationId = "updateDepartment",
     )
-    fun updateDepartment(
+    fun modifyDepartment(
         @PathVariable companyId: Long,
         @PathVariable departmentId: Long,
         @RequestBody request: DepartmentRequest,
