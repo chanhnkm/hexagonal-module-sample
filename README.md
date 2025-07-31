@@ -4,8 +4,7 @@
 2. Employee에 대한 등록, 변경, 삭제 API 추가
 3. Company에 대한 등록, 조회, 변경, 삭제 API 추가
 4. Department에 대한 등록, 조회, 변경, 삭제 API 추가
-5. JobRole에 대한 조회 API 추가
-* 작업 순서: ApiController -> Service -> Repository -> Exception
+5. JobRole에 대한 등록, 조회, 변경, 삭제 API 추가
 
 # flex-module-sample
 ---
@@ -18,7 +17,7 @@
 
 ![Discord Banner 1](https://discord.com/api/guilds/1377214678945759252/widget.png?style=banner1)
 [디스코드 채널 들어가기](https://discord.com/invite/jVsZRHFx)
-ㅁㄴㅇㄹㄴㅁㅇ
+
 ---
 
 ## 실행 안내

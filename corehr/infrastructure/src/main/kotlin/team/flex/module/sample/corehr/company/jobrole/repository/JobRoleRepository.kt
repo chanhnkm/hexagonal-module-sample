@@ -15,4 +15,18 @@ interface JobRoleRepository {
     ): JobRoleModel?
 
     fun findAllByCompanyIdentity(companyIdentity: CompanyIdentity): List<JobRoleModel>
+
+    fun add(
+        companyId: Long,
+        jobRoleName: String,
+    ): JobRoleModel?
+
+    fun delete(
+        jobRoleIdentity: JobRoleIdentity,
+    ): Long?
+
+    fun modify(
+        jobRoleId: Long,
+        jobRoleName: String,
+    ): JobRoleModel?
 }

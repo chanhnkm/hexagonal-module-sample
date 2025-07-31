@@ -15,4 +15,22 @@ class JobRoleAutoConfiguration {
         JobRoleLookUpServiceImpl(
             jobRoleRepository,
         )
+
+    @Bean
+    fun jobRoleRegisterServiceImpl(jobRoleRepository: JobRoleRepository): JobRoleRegisterService =
+        JobRoleRegisterServiceImpl(
+            jobRoleRepository,
+        )
+
+    @Bean
+    fun jobRoleRemoveServiceImpl(jobRoleRepository: JobRoleRepository): JobRoleRemoveService =
+        JobRoleRemoveServiceImpl(
+            jobRoleRepository,
+        )
+
+    @Bean
+    fun jobRoleUpdateServiceImpl(jobRoleRepository: JobRoleRepository): JobRoleUpdateService =
+        JobRoleUpdateServiceImpl(
+            jobRoleRepository,
+        )
 }

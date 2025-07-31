@@ -19,7 +19,7 @@ class JobRoleEntity(
     @Column
     override val createdAt: Instant,
     @Column
-    override val updatedAt: Instant,
+    override var updatedAt: Instant,
 ) : JobRoleModel {
     @Id
     var id: Long = 0L
