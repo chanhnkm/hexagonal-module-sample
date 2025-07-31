@@ -4,11 +4,7 @@
 
 package team.flex.module.sample.corehr.employee.repository
 
-import org.springframework.data.jdbc.repository.query.Modifying
-import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
-import org.springframework.data.repository.findByIdOrNull
-import org.springframework.data.repository.query.Param
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.employee.Employee
 import team.flex.module.sample.corehr.employee.EmployeeIdentity

@@ -5,7 +5,6 @@
 package team.flex.module.sample.corehr.company.department.repository
 
 import org.springframework.data.repository.CrudRepository
-import org.springframework.data.repository.findByIdOrNull
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.company.department.Department
 import team.flex.module.sample.corehr.company.department.DepartmentIdentity
