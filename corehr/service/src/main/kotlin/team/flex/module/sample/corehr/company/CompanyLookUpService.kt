@@ -9,6 +9,8 @@ import team.flex.module.sample.corehr.exception.CompanyNotFoundException
 
 interface CompanyLookUpService {
     fun get(companyIdentity: CompanyIdentity): CompanyModel
+
+    fun getAll(): List<CompanyModel>
 }
 
 internal class CompanyLookUpServiceImpl(
@@ -16,4 +18,7 @@ internal class CompanyLookUpServiceImpl(
 ) : CompanyLookUpService {
     override fun get(companyIdentity: CompanyIdentity): CompanyModel =
         companyRepository.findByCompanyIdentity(companyIdentity = companyIdentity) ?: throw CompanyNotFoundException()
+
+    override fun getAll(): List<CompanyModel> =
+        companyRepository.findAll()
 }

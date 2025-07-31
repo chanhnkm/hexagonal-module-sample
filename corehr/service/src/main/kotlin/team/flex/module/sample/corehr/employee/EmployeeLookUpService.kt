@@ -5,6 +5,7 @@
 package team.flex.module.sample.corehr.employee
 
 import team.flex.module.sample.corehr.company.CompanyIdentity
+import team.flex.module.sample.corehr.company.department.DepartmentModel
 import team.flex.module.sample.corehr.employee.repository.EmployeeRepository
 import team.flex.module.sample.corehr.exception.EmployeeNotFoundException
 
@@ -13,6 +14,8 @@ interface EmployeeLookUpService {
         companyIdentity: CompanyIdentity,
         employeeIdentity: EmployeeIdentity,
     ): EmployeeModel
+
+    fun getAll(companyIdentity: CompanyIdentity): List<EmployeeModel>
 }
 
 internal class EmployeeLookUpServiceImpl(
@@ -27,4 +30,7 @@ internal class EmployeeLookUpServiceImpl(
             employeeIdentity = employeeIdentity,
         )
             ?: throw EmployeeNotFoundException()
+
+    override fun getAll(companyIdentity: CompanyIdentity): List<EmployeeModel> =
+        employeeRepository.findAllByCompanyIdentity(companyIdentity = companyIdentity)
 }

@@ -1,10 +1,10 @@
 # 수정 버전 by chanhnkm
 
 1. Exception 클래스들 컴파일 오류 수정 (exception 모듈 build.gradle 플러그인 jvm 연결)
-2. Employee에 대한 등록, 변경, 삭제 API 추가
-3. Company에 대한 등록, 조회, 변경, 삭제 API 추가
-4. Department에 대한 등록, 조회, 변경, 삭제 API 추가
-5. JobRole에 대한 등록, 조회, 변경, 삭제 API 추가
+2. Employee에 대한 등록, 변경, 삭제, 전체 조회 API 추가
+3. Company에 대한 등록, 조회, 변경, 삭제, 전체 조회 API 추가
+4. Department에 대한 등록, 조회, 변경, 삭제, 전체 조회 API 추가
+5. JobRole에 대한 등록, 조회, 변경, 삭제, 전체 조회 API 추가
 
 # flex-module-sample
 ---

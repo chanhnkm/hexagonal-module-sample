@@ -10,6 +10,8 @@ import team.flex.module.sample.corehr.company.CompanyModel
 interface CompanyRepository {
     fun findByCompanyIdentity(companyIdentity: CompanyIdentity): CompanyModel?
 
+    fun findAll(): List<CompanyModel>
+
     fun add(companyName: String): CompanyModel?
 
     fun delete(companyIdentity: CompanyIdentity): Long?

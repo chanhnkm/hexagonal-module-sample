@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.flex.module.sample.corehr.company.CompanyIdentity
+import team.flex.module.sample.corehr.company.dto.CompanyResponse
 import team.flex.module.sample.corehr.company.of
 import team.flex.module.sample.corehr.employee.dto.EmployeeResponse
 import team.flex.module.sample.corehr.employee.dto.EmployeeRequest
@@ -41,6 +42,25 @@ class EmployeeApiController(
             CompanyIdentity.of(companyId),
             EmployeeIdentity.of(employeeId),
         ).let {
+            EmployeeResponse(
+                employeeId = it.employeeId,
+                employeeNumber = it.employeeNumber,
+                employeeName = it.name,
+            )
+        }
+    }
+
+    @GetMapping("/companies/{companyId}/employees")
+    @Operation(
+        summary = "구성원 전체 조회 API",
+        operationId = "getAllEmployee",
+    )
+    fun getAllEmployee(
+        @PathVariable companyId: Long,
+    ): List<EmployeeResponse> {
+        return lookUpService.getAll(
+            CompanyIdentity.of(companyId),
+        ).map { it ->
             EmployeeResponse(
                 employeeId = it.employeeId,
                 employeeNumber = it.employeeNumber,

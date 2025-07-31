@@ -44,6 +44,20 @@ class CompanyApiController(
         }
     }
 
+    @GetMapping("/companies")
+    @Operation(
+        summary = "회사 전체 조회 API",
+        operationId = "getAllCompany",
+    )
+    fun getAllCompany(): List<CompanyResponse> {
+        return lookUpService.getAll().map { it ->
+            CompanyResponse(
+                companyId = it.companyId,
+                companyName = it.name,
+            )
+        }
+    }
+
     @PostMapping("/companies")
     @Operation(
         summary = "회사 등록 API",

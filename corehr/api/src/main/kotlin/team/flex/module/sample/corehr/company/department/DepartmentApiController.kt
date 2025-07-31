@@ -49,6 +49,25 @@ class DepartmentApiController(
         }
     }
 
+    @GetMapping("/companies/{companyId}/departments")
+    @Operation(
+        summary = "부서 전체 조회 API",
+        operationId = "getAllDepartment",
+    )
+    fun getAllDepartment(
+        @PathVariable companyId: Long,
+    ): List<DepartmentResponse> {
+        return lookUpService.getAll(
+            CompanyIdentity.of(companyId),
+        ).map { it ->
+            DepartmentResponse(
+                departmentId = it.departmentId,
+                parentDepartmentId = it.parentDepartmentId,
+                departmentName = it.name,
+            )
+        }
+    }
+
     @PostMapping("/companies/{companyId}/departments")
     @Operation(
         summary = "부서 등록 API",

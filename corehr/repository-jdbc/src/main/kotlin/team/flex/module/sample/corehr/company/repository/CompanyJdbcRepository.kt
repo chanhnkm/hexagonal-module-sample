@@ -20,6 +20,10 @@ class CompanyRepositoryImpl(
         return companyJdbcRepository.findByIdOrNull(id = companyIdentity.companyId)?.toModel()
     }
 
+    override fun findAll(): List<CompanyModel> {
+        return companyJdbcRepository.findAll().map { it.toModel() }
+    }
+
     override fun add(companyName: String): CompanyModel? {
         val now = Instant.now()
         val entity = CompanyEntity(

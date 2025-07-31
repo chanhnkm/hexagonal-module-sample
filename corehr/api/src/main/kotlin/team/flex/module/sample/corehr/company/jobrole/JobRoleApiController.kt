@@ -48,6 +48,24 @@ class JobRoleApiController(
         }
     }
 
+    @GetMapping("/companies/{companyId}/jobRoles")
+    @Operation(
+        summary = "직무 전체 조회 API",
+        operationId = "getAllJobRole",
+    )
+    fun getAllJobRole(
+        @PathVariable companyId: Long,
+    ): List<JobRoleResponse> {
+        return lookUpService.getAll(
+            CompanyIdentity.of(companyId),
+        ).map { it ->
+            JobRoleResponse(
+                jobRoleId = it.jobRoleId,
+                jobRoleName = it.name,
+            )
+        }
+    }
+
     @PostMapping("/companies/{companyId}/jobRoles")
     @Operation(
         summary = "직무 등록 API",
