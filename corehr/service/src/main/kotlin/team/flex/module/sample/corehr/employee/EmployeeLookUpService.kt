@@ -5,7 +5,6 @@
 package team.flex.module.sample.corehr.employee
 
 import team.flex.module.sample.corehr.company.CompanyIdentity
-import team.flex.module.sample.corehr.company.department.DepartmentModel
 import team.flex.module.sample.corehr.employee.repository.EmployeeRepository
 import team.flex.module.sample.corehr.exception.EmployeeNotFoundException
 
