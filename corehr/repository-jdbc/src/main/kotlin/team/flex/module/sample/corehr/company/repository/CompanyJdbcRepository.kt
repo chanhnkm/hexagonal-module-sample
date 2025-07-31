@@ -36,10 +36,10 @@ class CompanyRepositoryImpl(
         return companyIdentity.companyId
     }
 
-    override fun modify(companyId: Long, companyName: String): CompanyModel? {
+    override fun modify(companyIdentity: CompanyIdentity, companyName: String): CompanyModel? {
         val now = Instant.now()
-        val entity = companyJdbcRepository.findByIdOrNull(id = companyId)
-            ?: throw IllegalArgumentException("Invalid companyId: $companyId")
+        val entity = companyJdbcRepository.findByIdOrNull(id = companyIdentity.companyId)
+            ?: throw IllegalArgumentException("Invalid companyId: ${companyIdentity.companyId}")
 
         entity.name = companyName
         entity.updatedAt = now

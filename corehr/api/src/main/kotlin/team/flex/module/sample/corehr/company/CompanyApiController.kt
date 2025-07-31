@@ -86,7 +86,7 @@ class CompanyApiController(
         @RequestBody request: CompanyRequest,
     ): CompanyResponse {
         return updateService.modify(
-            companyId,
+            CompanyIdentity.of(companyId),
             request.companyName,
         ).let {
             CompanyResponse(

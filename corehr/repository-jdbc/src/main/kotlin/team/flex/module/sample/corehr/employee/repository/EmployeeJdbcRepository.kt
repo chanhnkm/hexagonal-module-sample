@@ -4,8 +4,11 @@
 
 package team.flex.module.sample.corehr.employee.repository
 
+import org.springframework.data.jdbc.repository.query.Modifying
+import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.data.repository.query.Param
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.employee.Employee
 import team.flex.module.sample.corehr.employee.EmployeeIdentity
@@ -19,6 +22,11 @@ interface EmployeeJdbcRepository : CrudRepository<EmployeeEntity, Long> {
     ): EmployeeEntity?
 
     fun findByCompanyId(companyId: Long): List<EmployeeEntity>
+
+    fun deleteByIdAndCompanyId(
+        employeeId: Long,
+        companyId: Long,
+    ): Long?
 }
 
 class EmployeeRepositoryImpl(
@@ -41,43 +49,52 @@ class EmployeeRepositoryImpl(
     }
 
     override fun add(
-        companyId: Long,
+        companyIdentity: CompanyIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel? {
         val now = Instant.now()
         val entity = EmployeeEntity(
-            companyId = companyId,
+            companyId = companyIdentity.companyId,
             employeeNumber = employeeNumber,
             name = employeeName,
             createdAt = now,
             updatedAt = now,
         )
         val saved = employeeJdbcRepository.save(entity)
-        return saved
+        return saved.toModel()
     }
 
     override fun delete(
+        companyIdentity: CompanyIdentity,
         employeeIdentity: EmployeeIdentity,
     ): Long? {
-        employeeJdbcRepository.deleteById(employeeIdentity.employeeId)
+        employeeJdbcRepository.deleteByIdAndCompanyId(
+            employeeId = employeeIdentity.employeeId,
+            companyId = companyIdentity.companyId,
+        )
         return employeeIdentity.employeeId
     }
 
     override fun modify(
-        employeeId: Long,
+        companyIdentity: CompanyIdentity,
+        employeeIdentity: EmployeeIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel? {
         val now = Instant.now()
-        val entity = employeeJdbcRepository.findByIdOrNull(id = employeeId)
-            ?: throw IllegalArgumentException("Invalid employeeId: $employeeId")
+        val model = employeeJdbcRepository.findByIdAndCompanyId(
+            employeeId = employeeIdentity.employeeId,
+            companyId = companyIdentity.companyId,
+        )
 
-        entity.employeeNumber = employeeNumber
-        entity.name = employeeName
-        entity.updatedAt = now
+        model?.let {
+            it.employeeNumber = employeeNumber
+            it.name = employeeName
+            it.updatedAt = now
+        }!!
 
-        val saved = employeeJdbcRepository.save(entity)
+        val saved = employeeJdbcRepository.save(model)
         return saved.toModel()
     }
 

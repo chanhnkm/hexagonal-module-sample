@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.company.of
 import team.flex.module.sample.corehr.company.department.dto.DepartmentResponse
-import team.flex.module.sample.corehr.company.department.DepartmentIdentity
 import team.flex.module.sample.corehr.company.department.dto.DepartmentRequest
-import team.flex.module.sample.corehr.company.department.of
 
 @RestController
 @RequestMapping("/api/v2/corehr")
@@ -61,7 +59,7 @@ class DepartmentApiController(
         @RequestBody request: DepartmentRequest,
     ): DepartmentResponse {
         return registerService.add(
-            companyId,
+            CompanyIdentity.of(companyId),
             request.parentDepartmentId,
             request.departmentName,
         ).let {
@@ -73,31 +71,35 @@ class DepartmentApiController(
         }
     }
 
-    @DeleteMapping("/departments/{departmentId}")
+    @DeleteMapping("/companies/{companyId}/departments/{departmentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
         summary = "부서 삭제 API",
         operationId = "removeDepartment",
     )
     fun removeDepartment(
+        @PathVariable companyId: Long,
         @PathVariable departmentId: Long,
     ) {
         removeService.delete(
+            CompanyIdentity.of(companyId),
             DepartmentIdentity.of(departmentId),
         )
     }
 
-    @PutMapping("/departments/{departmentId}")
+    @PutMapping("/companies/{companyId}/departments/{departmentId}")
     @Operation(
         summary = "부서 수정 API",
         operationId = "updateDepartment",
     )
     fun updateDepartment(
+        @PathVariable companyId: Long,
         @PathVariable departmentId: Long,
         @RequestBody request: DepartmentRequest,
     ): DepartmentResponse {
         return updateService.modify(
-            departmentId,
+            CompanyIdentity.of(companyId),
+            DepartmentIdentity.of(departmentId),
             request.parentDepartmentId,
             request.departmentName,
         ).let {

@@ -5,9 +5,7 @@
 package team.flex.module.sample.corehr.company.jobrole.repository
 
 import org.springframework.data.repository.CrudRepository
-import org.springframework.data.repository.findByIdOrNull
 import team.flex.module.sample.corehr.company.CompanyIdentity
-import team.flex.module.sample.corehr.company.department.repository.DepartmentEntity
 import team.flex.module.sample.corehr.company.jobrole.JobRole
 import team.flex.module.sample.corehr.company.jobrole.JobRoleIdentity
 import team.flex.module.sample.corehr.company.jobrole.JobRoleModel
@@ -20,6 +18,11 @@ interface JobRoleJdbcRepository : CrudRepository<JobRoleEntity, Long> {
     ): JobRoleEntity?
 
     fun findAllByCompanyId(companyId: Long): List<JobRoleEntity>
+
+    fun deleteByIdAndCompanyId(
+        jobRoleId: Long,
+        companyId: Long,
+    ): Long?
 }
 
 class JobRoleRepositoryImpl(
@@ -42,39 +45,48 @@ class JobRoleRepositoryImpl(
     }
 
     override fun add(
-        companyId: Long,
+        companyIdentity: CompanyIdentity,
         jobRoleName: String,
     ): JobRoleModel? {
         val now = Instant.now()
         val entity = JobRoleEntity(
-            companyId = companyId,
+            companyId = companyIdentity.companyId,
             name = jobRoleName,
             createdAt = now,
             updatedAt = now,
         )
         val saved = jobRoleJdbcRepository.save(entity)
-        return saved
+        return saved.toModel()
     }
 
     override fun delete(
+        companyIdentity: CompanyIdentity,
         jobRoleIdentity: JobRoleIdentity,
     ): Long? {
-        jobRoleJdbcRepository.deleteById(jobRoleIdentity.jobRoleId)
+        jobRoleJdbcRepository.deleteByIdAndCompanyId(
+            jobRoleId = jobRoleIdentity.jobRoleId,
+            companyId = companyIdentity.companyId,
+        )
         return jobRoleIdentity.jobRoleId
     }
 
     override fun modify(
-        jobRoleId: Long,
+        companyIdentity: CompanyIdentity,
+        jobRoleIdentity: JobRoleIdentity,
         jobRoleName: String,
     ): JobRoleModel? {
         val now = Instant.now()
-        val entity = jobRoleJdbcRepository.findByIdOrNull(id = jobRoleId)
-            ?: throw IllegalArgumentException("Invalid jobRoleId: $jobRoleId")
+        val model = jobRoleJdbcRepository.findByIdAndCompanyId(
+            jobRoleId = jobRoleIdentity.jobRoleId,
+            companyId = companyIdentity.companyId,
+        )
 
-        entity.name = jobRoleName
-        entity.updatedAt = now
+        model?.let {
+            it.name = jobRoleName
+            it.updatedAt = now
+        }!!
 
-        val saved = jobRoleJdbcRepository.save(entity)
+        val saved = jobRoleJdbcRepository.save(model)
         return saved.toModel()
     }
 

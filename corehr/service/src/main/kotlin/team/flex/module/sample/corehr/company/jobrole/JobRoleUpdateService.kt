@@ -10,7 +10,8 @@ import team.flex.module.sample.corehr.exception.JobRoleNotModifiedException
 
 interface JobRoleUpdateService {
     fun modify(
-        jobRoleId: Long,
+        companyIdentity: CompanyIdentity,
+        jobRoleIdentity: JobRoleIdentity,
         jobRoleName: String,
     ): JobRoleModel
 }
@@ -19,11 +20,13 @@ internal class JobRoleUpdateServiceImpl(
     private val jobRoleRepository: JobRoleRepository,
 ) : JobRoleUpdateService {
     override fun modify(
-        jobRoleId: Long,
+        companyIdentity: CompanyIdentity,
+        jobRoleIdentity: JobRoleIdentity,
         jobRoleName: String,
     ): JobRoleModel =
         jobRoleRepository.modify(
-            jobRoleId = jobRoleId,
+            companyIdentity = companyIdentity,
+            jobRoleIdentity = jobRoleIdentity,
             jobRoleName = jobRoleName,
         ) ?: throw JobRoleNotModifiedException()
 }

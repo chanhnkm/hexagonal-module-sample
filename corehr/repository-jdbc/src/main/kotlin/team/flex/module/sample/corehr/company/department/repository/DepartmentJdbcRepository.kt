@@ -19,6 +19,11 @@ interface DepartmentJdbcRepository : CrudRepository<DepartmentEntity, Long> {
     ): DepartmentEntity?
 
     fun findAllByCompanyId(companyId: Long): List<DepartmentEntity>
+
+    fun deleteByIdAndCompanyId(
+        departmentId: Long,
+        companyId: Long,
+    ): Long?
 }
 
 class DepartmentRepositoryImpl(
@@ -40,40 +45,53 @@ class DepartmentRepositoryImpl(
         ).map { it.toModel() }
     }
 
-    override fun add(companyId: Long,
-                     parentDepartmentId: Long,
-                     departmentName: String,
+    override fun add(
+        companyIdentity: CompanyIdentity,
+        parentDepartmentId: Long,
+        departmentName: String,
     ): DepartmentModel? {
         val now = Instant.now()
         val entity = DepartmentEntity(
-            companyId = companyId,
+            companyId = companyIdentity.companyId,
             parentDepartmentId = parentDepartmentId,
             name = departmentName,
             createdAt = now,
             updatedAt = now,
         )
         val saved = departmentJdbcRepository.save(entity)
-        return saved
+        return saved.toModel()
     }
 
-    override fun delete(departmentIdentity: DepartmentIdentity): Long? {
-        departmentJdbcRepository.deleteById(departmentIdentity.departmentId)
+    override fun delete(
+        companyIdentity: CompanyIdentity,
+        departmentIdentity: DepartmentIdentity
+    ): Long? {
+        departmentJdbcRepository.deleteByIdAndCompanyId(
+            departmentId = departmentIdentity.departmentId,
+            companyId = companyIdentity.companyId,
+        )
         return departmentIdentity.departmentId
     }
 
-    override fun modify(departmentId: Long,
-                        parentDepartmentId: Long,
-                        departmentName: String,
+    override fun modify(
+        companyIdentity: CompanyIdentity,
+        departmentIdentity: DepartmentIdentity,
+        parentDepartmentId: Long,
+        departmentName: String,
     ): DepartmentModel? {
         val now = Instant.now()
-        val entity = departmentJdbcRepository.findByIdOrNull(id = departmentId)
-            ?: throw IllegalArgumentException("Invalid departmentId: $departmentId")
+        val model = departmentJdbcRepository.findByIdAndCompanyId(
+            departmentId = departmentIdentity.departmentId,
+            companyId = companyIdentity.companyId,
+        )
 
-        entity.parentDepartmentId = parentDepartmentId
-        entity.name = departmentName
-        entity.updatedAt = now
+        model?.let {
+            it.parentDepartmentId = parentDepartmentId
+            it.name = departmentName
+            it.updatedAt = now
+        }!!
 
-        val saved = departmentJdbcRepository.save(entity)
+        val saved = departmentJdbcRepository.save(model)
         return saved.toModel()
     }
 

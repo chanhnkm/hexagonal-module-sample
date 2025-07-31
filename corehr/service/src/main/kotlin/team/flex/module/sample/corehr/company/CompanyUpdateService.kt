@@ -8,12 +8,19 @@ import team.flex.module.sample.corehr.company.repository.CompanyRepository
 import team.flex.module.sample.corehr.exception.CompanyNotModifiedException
 
 interface CompanyUpdateService {
-    fun modify(companyId: Long, companyName: String): CompanyModel
+    fun modify(
+        companyIdentity: CompanyIdentity,
+        companyName: String
+    ): CompanyModel
 }
 
 internal class CompanyUpdateServiceImpl(
     private val companyRepository: CompanyRepository,
 ) : CompanyUpdateService {
-    override fun modify(companyId: Long, companyName: String): CompanyModel =
-        companyRepository.modify(companyId = companyId, companyName = companyName) ?: throw CompanyNotModifiedException()
+    override fun modify(
+        companyIdentity: CompanyIdentity,
+        companyName: String
+    ): CompanyModel =
+        companyRepository.modify(companyIdentity = companyIdentity, companyName = companyName)
+            ?: throw CompanyNotModifiedException()
 }

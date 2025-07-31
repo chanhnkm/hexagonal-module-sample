@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.flex.module.sample.corehr.company.CompanyIdentity
-import team.flex.module.sample.corehr.company.dto.CompanyRequest
-import team.flex.module.sample.corehr.company.dto.CompanyResponse
 import team.flex.module.sample.corehr.company.of
 import team.flex.module.sample.corehr.employee.dto.EmployeeResponse
 import team.flex.module.sample.corehr.employee.dto.EmployeeRequest
@@ -61,7 +59,7 @@ class EmployeeApiController(
         @RequestBody request: EmployeeRequest,
     ): EmployeeResponse {
         return registerService.add(
-            companyId,
+            CompanyIdentity.of(companyId),
             request.employeeNumber,
             request.employeeName,
         ).let {
@@ -73,31 +71,35 @@ class EmployeeApiController(
         }
     }
 
-    @DeleteMapping("/employees/{employeeId}")
+    @DeleteMapping("/companies/{companyId}/employees/{employeeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
         summary = "구성원 삭제 API",
         operationId = "removeEmployee",
     )
     fun removeEmployee(
+        @PathVariable companyId: Long,
         @PathVariable employeeId: Long,
     ) {
         removeService.delete(
+            CompanyIdentity.of(companyId),
             EmployeeIdentity.of(employeeId),
         )
     }
 
-    @PutMapping("/employees/{employeeId}")
+    @PutMapping("/companies/{companyId}/employees/{employeeId}")
     @Operation(
         summary = "구성원 수정 API",
         operationId = "updateEmployee",
     )
     fun updateEmployee(
+        @PathVariable companyId: Long,
         @PathVariable employeeId: Long,
         @RequestBody request: EmployeeRequest,
     ): EmployeeResponse {
         return updateService.modify(
-            employeeId,
+            CompanyIdentity.of(companyId),
+            EmployeeIdentity.of(employeeId),
             request.employeeNumber,
             request.employeeName,
         ).let {

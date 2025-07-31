@@ -17,17 +17,19 @@ interface EmployeeRepository {
     fun findAllByCompanyIdentity(companyIdentity: CompanyIdentity): List<EmployeeModel>
 
     fun add(
-        companyId: Long,
+        companyIdentity: CompanyIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel?
 
     fun delete(
+        companyIdentity: CompanyIdentity,
         employeeIdentity: EmployeeIdentity,
     ): Long?
 
     fun modify(
-        employeeId: Long,
+        companyIdentity: CompanyIdentity,
+        employeeIdentity: EmployeeIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel?

@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.company.of
-import team.flex.module.sample.corehr.company.jobrole.JobRoleIdentity
 import team.flex.module.sample.corehr.company.jobrole.dto.JobRoleRequest
 import team.flex.module.sample.corehr.company.jobrole.dto.JobRoleResponse
-import team.flex.module.sample.corehr.company.jobrole.of
 
 @RestController
 @RequestMapping("/api/v2/corehr")
@@ -60,7 +58,7 @@ class JobRoleApiController(
         @RequestBody request: JobRoleRequest,
     ): JobRoleResponse {
         return registerService.add(
-            companyId,
+            CompanyIdentity.of(companyId),
             request.jobRoleName,
         ).let {
             JobRoleResponse(
@@ -70,31 +68,35 @@ class JobRoleApiController(
         }
     }
 
-    @DeleteMapping("/jobRoles/{jobRoleId}")
+    @DeleteMapping("/companies/{companyId}/jobRoles/{jobRoleId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
         summary = "직무 삭제 API",
         operationId = "removeJobRole",
     )
     fun removeJobRole(
+        @PathVariable companyId: Long,
         @PathVariable jobRoleId: Long,
     ) {
         removeService.delete(
+            CompanyIdentity.of(companyId),
             JobRoleIdentity.of(jobRoleId),
         )
     }
 
-    @PutMapping("/jobRoles/{jobRoleId}")
+    @PutMapping("/companies/{companyId}/jobRoles/{jobRoleId}")
     @Operation(
         summary = "직무 수정 API",
         operationId = "updateJobRole",
     )
     fun updateJobRole(
+        @PathVariable companyId: Long,
         @PathVariable jobRoleId: Long,
         @RequestBody request: JobRoleRequest,
     ): JobRoleResponse {
         return updateService.modify(
-            jobRoleId,
+            CompanyIdentity.of(companyId),
+            JobRoleIdentity.of(jobRoleId),
             request.jobRoleName,
         ).let {
             JobRoleResponse(

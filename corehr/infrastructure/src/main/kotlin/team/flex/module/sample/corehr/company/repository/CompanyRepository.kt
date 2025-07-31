@@ -14,5 +14,5 @@ interface CompanyRepository {
 
     fun delete(companyIdentity: CompanyIdentity): Long?
 
-    fun modify(companyId: Long, companyName: String): CompanyModel?
+    fun modify(companyIdentity: CompanyIdentity, companyName: String): CompanyModel?
 }

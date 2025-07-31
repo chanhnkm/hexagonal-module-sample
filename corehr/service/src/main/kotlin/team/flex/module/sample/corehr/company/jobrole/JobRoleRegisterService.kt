@@ -10,7 +10,7 @@ import team.flex.module.sample.corehr.exception.JobRoleNotAddedException
 
 interface JobRoleRegisterService {
     fun add(
-        companyId: Long,
+        companyIdentity: CompanyIdentity,
         jobRoleName: String,
     ): JobRoleModel
 }
@@ -19,11 +19,11 @@ internal class JobRoleRegisterServiceImpl(
     private val jobRoleRepository: JobRoleRepository,
 ) : JobRoleRegisterService {
     override fun add(
-        companyId: Long,
+        companyIdentity: CompanyIdentity,
         jobRoleName: String,
     ): JobRoleModel =
         jobRoleRepository.add(
-            companyId = companyId,
+            companyIdentity = companyIdentity,
             jobRoleName = jobRoleName,
         ) ?: throw JobRoleNotAddedException()
 }

@@ -4,12 +4,14 @@
 
 package team.flex.module.sample.corehr.employee
 
+import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.employee.repository.EmployeeRepository
 import team.flex.module.sample.corehr.exception.EmployeeNotModifiedException
 
 interface EmployeeUpdateService {
     fun modify(
-        employeeId: Long,
+        companyIdentity: CompanyIdentity,
+        employeeIdentity: EmployeeIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel
@@ -19,12 +21,14 @@ internal class EmployeeUpdateServiceImpl(
     private val employeeRepository: EmployeeRepository,
 ) : EmployeeUpdateService {
     override fun modify(
-        employeeId: Long,
+        companyIdentity: CompanyIdentity,
+        employeeIdentity: EmployeeIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel =
         employeeRepository.modify(
-            employeeId = employeeId,
+            companyIdentity = companyIdentity,
+            employeeIdentity = employeeIdentity,
             employeeNumber = employeeNumber,
             employeeName = employeeName,
         )

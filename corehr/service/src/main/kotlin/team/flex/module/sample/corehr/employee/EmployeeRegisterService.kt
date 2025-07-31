@@ -10,7 +10,7 @@ import team.flex.module.sample.corehr.exception.EmployeeNotAddedException
 
 interface EmployeeRegisterService {
     fun add(
-        companyId: Long,
+        companyIdentity: CompanyIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel
@@ -20,12 +20,12 @@ internal class EmployeeRegisterServiceImpl(
     private val employeeRepository: EmployeeRepository,
 ) : EmployeeRegisterService {
     override fun add(
-        companyId: Long,
+        companyIdentity: CompanyIdentity,
         employeeNumber: String,
         employeeName: String,
     ): EmployeeModel =
         employeeRepository.add(
-            companyId = companyId,
+            companyIdentity = companyIdentity,
             employeeNumber = employeeNumber,
             employeeName = employeeName,
         )
