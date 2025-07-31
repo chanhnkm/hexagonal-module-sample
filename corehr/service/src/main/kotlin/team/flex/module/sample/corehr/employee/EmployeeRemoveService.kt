@@ -4,9 +4,8 @@
 
 package team.flex.module.sample.corehr.employee
 
-import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.employee.repository.EmployeeRepository
-import team.flex.module.sample.corehr.exception.EmployeeNotRemovedException
+import team.flex.module.sample.corehr.exception.EmployeeNotDeletedException
 
 interface EmployeeRemoveService {
     fun delete(
@@ -23,5 +22,5 @@ internal class EmployeeRemoveServiceImpl(
         employeeRepository.delete(
             employeeIdentity = employeeIdentity,
         )
-            ?: throw EmployeeNotRemovedException()
+            ?: throw EmployeeNotDeletedException()
 }

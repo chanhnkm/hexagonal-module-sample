@@ -4,9 +4,8 @@
 
 package team.flex.module.sample.corehr.employee
 
-import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.employee.repository.EmployeeRepository
-import team.flex.module.sample.corehr.exception.EmployeeNotUpdatedException
+import team.flex.module.sample.corehr.exception.EmployeeNotModifiedException
 
 interface EmployeeUpdateService {
     fun modify(
@@ -29,5 +28,5 @@ internal class EmployeeUpdateServiceImpl(
             employeeNumber = employeeNumber,
             employeeName = employeeName,
         )
-            ?: throw EmployeeNotUpdatedException()
+            ?: throw EmployeeNotModifiedException()
 }

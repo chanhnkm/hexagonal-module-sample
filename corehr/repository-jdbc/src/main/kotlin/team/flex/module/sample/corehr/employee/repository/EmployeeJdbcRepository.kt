@@ -71,7 +71,7 @@ class EmployeeRepositoryImpl(
     ): EmployeeModel? {
         val now = Instant.now()
         val entity = employeeJdbcRepository.findByIdOrNull(id = employeeId)
-            ?: throw IllegalArgumentException("Invalid companyId: $employeeId")
+            ?: throw IllegalArgumentException("Invalid employeeId: $employeeId")
 
         entity.employeeNumber = employeeNumber
         entity.name = employeeName

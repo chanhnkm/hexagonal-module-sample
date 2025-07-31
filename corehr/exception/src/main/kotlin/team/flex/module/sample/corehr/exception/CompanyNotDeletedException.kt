@@ -4,4 +4,4 @@
 
 package team.flex.module.sample.corehr.exception
 
-class EmployeeNotRemovedException : RuntimeException()
+class CompanyNotDeletedException : RuntimeException()
