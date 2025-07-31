@@ -15,13 +15,13 @@ class DepartmentEntity(
     @Column
     override val companyId: Long,
     @Column("parent_id")
-    override val parentDepartmentId: Long?,
+    override var parentDepartmentId: Long?,
     @Column
     override var name: String,
     @Column
     override val createdAt: Instant,
     @Column
-    override val updatedAt: Instant,
+    override var updatedAt: Instant,
 ) : DepartmentModel {
     @Id
     var id: Long = 0L

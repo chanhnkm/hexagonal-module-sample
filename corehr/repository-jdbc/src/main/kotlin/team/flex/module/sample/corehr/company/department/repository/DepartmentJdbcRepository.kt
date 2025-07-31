@@ -5,10 +5,12 @@
 package team.flex.module.sample.corehr.company.department.repository
 
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.findByIdOrNull
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.company.department.Department
 import team.flex.module.sample.corehr.company.department.DepartmentIdentity
 import team.flex.module.sample.corehr.company.department.DepartmentModel
+import java.time.Instant
 
 interface DepartmentJdbcRepository : CrudRepository<DepartmentEntity, Long> {
     fun findByIdAndCompanyId(
@@ -36,6 +38,43 @@ class DepartmentRepositoryImpl(
         return departmentJdbcRepository.findAllByCompanyId(
             companyId = companyIdentity.companyId,
         ).map { it.toModel() }
+    }
+
+    override fun add(companyId: Long,
+                     parentDepartmentId: Long,
+                     departmentName: String,
+    ): DepartmentModel? {
+        val now = Instant.now()
+        val entity = DepartmentEntity(
+            companyId = companyId,
+            parentDepartmentId = parentDepartmentId,
+            name = departmentName,
+            createdAt = now,
+            updatedAt = now,
+        )
+        val saved = departmentJdbcRepository.save(entity)
+        return saved
+    }
+
+    override fun delete(departmentIdentity: DepartmentIdentity): Long? {
+        departmentJdbcRepository.deleteById(departmentIdentity.departmentId)
+        return departmentIdentity.departmentId
+    }
+
+    override fun modify(departmentId: Long,
+                        parentDepartmentId: Long,
+                        departmentName: String,
+    ): DepartmentModel? {
+        val now = Instant.now()
+        val entity = departmentJdbcRepository.findByIdOrNull(id = departmentId)
+            ?: throw IllegalArgumentException("Invalid departmentId: $departmentId")
+
+        entity.parentDepartmentId = parentDepartmentId
+        entity.name = departmentName
+        entity.updatedAt = now
+
+        val saved = departmentJdbcRepository.save(entity)
+        return saved.toModel()
     }
 
     private fun DepartmentEntity.toModel() =

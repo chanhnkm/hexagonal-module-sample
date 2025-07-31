@@ -15,4 +15,22 @@ class DepartmentAutoConfiguration {
         DepartmentLookUpServiceImpl(
             departmentRepository = departmentRepository,
         )
+
+    @Bean
+    fun departmentRegisterServiceImpl(departmentRepository: DepartmentRepository): DepartmentRegisterService =
+        DepartmentRegisterServiceImpl(
+            departmentRepository = departmentRepository,
+        )
+
+    @Bean
+    fun departmentRemoveServiceImpl(departmentRepository: DepartmentRepository): DepartmentRemoveService =
+        DepartmentRemoveServiceImpl(
+            departmentRepository = departmentRepository,
+        )
+
+    @Bean
+    fun departmentUpdateServiceImpl(departmentRepository: DepartmentRepository): DepartmentUpdateService =
+        DepartmentUpdateServiceImpl(
+            departmentRepository = departmentRepository,
+        )
 }

@@ -15,4 +15,16 @@ interface DepartmentRepository {
     ): DepartmentModel?
 
     fun findAllByCompanyIdentity(companyIdentity: CompanyIdentity): List<DepartmentModel>
+
+    fun add(companyId: Long,
+            parentDepartmentId: Long,
+            departmentName: String
+    ): DepartmentModel?
+
+    fun delete(departmentIdentity: DepartmentIdentity): Long?
+
+    fun modify(departmentId: Long,
+               parentDepartmentId: Long,
+               departmentName: String,
+    ): DepartmentModel?
 }
